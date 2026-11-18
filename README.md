@@ -7,7 +7,32 @@
 > **Team C1CORE**, BMS Institute of Technology and Management, Bengaluru · Rewired 2026 ("The Invisible City"), online round
 > **All data in this prototype is synthetic.** Donor names, quantities and requests are invented for testing.
 
-![OotaPass introduction](docs/frontend/separate-landing-desktop.png)
+[Team repository](https://github.com/dab1704/OOTAPASS) · [Frontend fork](https://github.com/RMP2005/ootapass-ui) · [Design and verification report](docs/frontend-redesign.md)
+
+![OotaPass landing with ten orbiting food-recovery cards](docs/frontend/ten-card-orbit-desktop.png)
+
+## Explore the interface
+
+The project has three distinct entry points. The landing introduces the problem; its **Enter the dispatch workspace** button opens the interactive demonstration. Use **Open working app** inside the demo to reach the API-backed planner.
+
+| Screen | What you can explore |
+|---|---|
+| **Landing** | Ten orbiting food, gate and route cards; a scroll-led project story; food passports, shortfall explanations and sourced issue facts. Motion can be paused and respects reduced-motion preferences. |
+| **Interactive console** | Top navigation for Night board, Runner app and Plan comparison. A route/replay map, cancellation example and iPhone-style runner flow. These are **scripted demonstration states**, not live delivery confirmations. |
+| **Working planner** | Hospital-gate requests, surplus donations, donor/runner cancellation, replanning, map/replay, gate/trip/supply/activity views, food passports, pickup acceptance/rejection and printable QR labels. Uses the existing Flask API and SQLite storage. |
+
+![Night board with top navigation and route map](docs/frontend/top-navigation-nightboard.png)
+
+<details>
+<summary>Runner phone and mobile interface</summary>
+
+![Runner app in its phone frame](docs/frontend/iphone-runner-desktop.png)
+
+[Mobile landing](docs/frontend/ten-card-orbit-mobile.png) · [Mobile runner](docs/frontend/iphone-runner-mobile.png)
+
+</details>
+
+The redesign keeps the Python backend, planner rules, API contracts, persistence, tests and benchmark data unchanged. It uses the existing HTML/CSS/JavaScript stack.
 
 ---
 
@@ -42,7 +67,7 @@ OotaPass is a coordinator console for a registered food-recovery NGO:
 | Feature | Description |
 |---|---|
 | **One plan for the night** | Every gate request, donation and runner goes into a single plan. |
-| **Shortfalls with a reason** | Each shortfall is labelled FOOD / TRANSPORT / TIME / RECEIVING CAPACITY, and partners get an alert such as *"20 more meals needed at NIMHANS by 22:30"*. |
+| **Shortfalls with a reason** | Each shortfall is labelled FOOD / TRANSPORT / TIME / RECEIVING CAPACITY, and the scripted console illustrates an alert such as *"20 more meals needed at NIMHANS by 22:30"*. |
 | **Cancellation recovery** | When a donor or runner drops out, trips already picked up are kept and the rest of the night is re-planned. |
 | **Food passport** | Each batch gets a QR label with FSSAI-style label fields, the donor's declared use-by time, and a pickup check the NGO accepts or rejects. Rejected batches are removed and the night is re-planned. |
 | **Night timeline and map** | Scrub or play the night from 20:00 to 00:00 and watch runners move and deadlines approach. |
@@ -50,33 +75,47 @@ OotaPass is a coordinator console for a registered food-recovery NGO:
 
 ---
 
-## Run it
+## Run locally on macOS
 
-Needs **Python 3.10+**.
+Needs **Python 3.10+** and Git. No Node build step is required.
 
 ```bash
-pip install -r requirements.txt
-python app.py
+# Frontend fork with the refreshed README and current UI:
+git clone --branch docs/readme-refresh https://github.com/RMP2005/ootapass-ui.git
+cd ootapass-ui
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m flask --app app run --port 5055
 ```
 
-Then open:
+For the original team checkout, clone `https://github.com/dab1704/OOTAPASS.git`, enter `OOTAPASS`, and run the same environment and Flask commands. Existing checkouts can run those commands from the folder containing `requirements.txt`.
 
-| URL | What it is |
+| Local URL | Screen |
 |---|---|
-| <http://127.0.0.1:5000/> | **Project introduction.** Ten orbiting food-recovery cards introduce the project. **Enter the dispatch workspace** opens the interactive `/console/` workspace. |
-| <http://127.0.0.1:5000/console/> | **Interactive workspace (scripted demo).** Top navigation: Night board, Runner app in an iPhone-style frame, and Plan comparison. All original scripted interactions remain; this screen is not wired to the live API. |
+| <http://127.0.0.1:5055/> | Landing and project story |
+| <http://127.0.0.1:5055/console/> | Interactive **scripted demo**: Night board, Runner app, Plan comparison |
+| <http://127.0.0.1:5055/?workspace=dispatch> | **API-backed planner** with working forms, cancellation and pickup checks |
 
-| <http://127.0.0.1:5000/?workspace=dispatch> | **Live API-backed planner.** Requests, donations, cancellation, pickup checks and food passports, backed by Flask and SQLite. Also linked from the interactive workspace. |
+To keep test data separate from your normal database:
 
-**Reset demo** restores the demo night at any time. Map tiles load from OpenStreetMap / Esri, so the map needs internet. Everything else works offline.
+```bash
+OOTAPASS_DB=/tmp/ootapass-local-test.db python -m flask --app app run --port 5055
+```
 
-### 60-second demo
+**Port 5055 already in use?** Open the existing preview if it is OotaPass, or launch with `--port 5056` and use `http://127.0.0.1:5056/`. The pip upgrade notice is unrelated to a busy port. Stop your foreground server with **Ctrl+C**.
 
-1. The headline reads **140 of 140 meals reach the gates tonight.**
-2. Drag the clock to **20:40**.
-3. Open **Supply**, choose **Cancel donation** on *Bakery C*, and confirm.
-4. The plan rebuilds: **120 / 140 with OotaPass vs 100 / 140 with nearest-first.** NIMHANS is marked **20 short** with the reason **FOOD**, and an alert goes out.
-5. Press **Play** to watch the night unfold. Open any trip to see its food passport and QR label.
+Map tiles use OpenStreetMap / Esri and need internet. **Reset demo** restores synthetic data; use a separate test database when trying destructive demo actions. These URLs are local previews, not a public deployment.
+
+### Quick walkthrough
+
+1. Open the landing, explore the orbit and story, then select **Enter the dispatch workspace**.
+2. In `/console/`, inspect the Night board and replay the cancellation scenario. Visit **Runner app** for its scripted pickup → arrival → QR → handover → replay flow, then **Plan comparison**.
+3. Select **Open working app** for the API-backed planner. Log a gate request or surplus donation through the existing forms.
+4. To reproduce the baseline cancellation example, reset the demo night, move the clock to **20:40**, and cancel **Bakery C** from the supply view. The allocation becomes **120/140 vs 100/140** for nearest-first; NIMHANS is **20 short / FOOD**.
+5. Open a planned trip for its food passport, pickup checks and printable QR label.
+
+Planned allocations and replayed movement are not confirmed real-world deliveries. Partner alerts in the console are illustrative; no external messaging integration is connected.
 
 ---
 
@@ -160,8 +199,8 @@ ootapass/planner.py    Planner rules, nearest-first baseline, shortfall reasons
 ootapass/night.py      Replays the night and re-plans at every change
 ootapass/store.py      SQLite storage
 ootapass/seed.py       The synthetic demo night
-templates/             Prototype console and printable passport label
-static/                CSS, JavaScript, Leaflet and fonts for the prototype
+templates/             Landing, API-backed planner and printable passport label
+static/                Landing/planner CSS, JavaScript, shared logo, Leaflet and fonts
 design/                Night console visual demo (served at /console/)
 bench/benchmark.py     500-night comparison
 tests/                 Unit tests
@@ -195,5 +234,7 @@ OotaPass records decisions; it **does not certify food as safe.**
 - **Libraries:** [Flask](https://flask.palletsprojects.com/) (BSD-3), [qrcode](https://github.com/lincolnloop/python-qrcode) (BSD), [Leaflet 1.9.4](https://leafletjs.com/) (BSD-2, bundled in `static/vendor`)
 - **Map data and tiles:** © OpenStreetMap contributors (ODbL); tiles © Esri
 - **Font:** Schibsted Grotesk (SIL Open Font License, bundled)
-- **AI assistance:** Claude (Anthropic) was used for research, drafting and code assistance; the night console in `design/` was designed with Claude Design.
+- **AI assistance:** Claude (Anthropic) was used for original research, drafting and code assistance; the original night console in `design/` was designed with Claude Design. Codex assisted with the subsequent frontend redesign and verification.
+- **Design guidance:** [Unslop](https://github.com/heydamir/unslop) by Damir Sokolovsky (CC BY 4.0) informed audit and visual refinement; [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT) informed responsive layout and interaction; [Open Design](https://github.com/nexu-io/open-design) (Apache 2.0) was used as a reference for hierarchy and information design. See the [full usage and attribution report](docs/frontend-redesign.md#design-repositories-and-credit).
+- **Spatial inspiration:** [Cosmos](https://www.cosmos.so/) inspired the landing composition; its assets and code were not copied. OotaPass uses original food-recovery illustrations and its shared yellow ring-and-dot logo.
 - **Data:** synthetic. Hospital and area locations are approximate public coordinates.
