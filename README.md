@@ -241,3 +241,10 @@ OotaPass records decisions; it **does not certify food as safe.**
 ## Contributors
 
 - prinshu-prog
+## Food Allocation Workflow
+
+1. **Demand Registration:** Requests for food are collected from hospital gates.
+2. **Donor Registration:** Available surplus food is recorded from donors.
+3. **Allocation:** The planner prioritizes requests and allocates available food while protecting vegetarian demand.
+4. **Handover:** Food is delivered to recipients and handovers are recorded.
+5. **Recovery:** Cancelled donor or runner assignments can be reassigned where possible.
