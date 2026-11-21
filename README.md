@@ -238,3 +238,6 @@ OotaPass records decisions; it **does not certify food as safe.**
 - **Design guidance:** [Unslop](https://github.com/heydamir/unslop) by Damir Sokolovsky (CC BY 4.0) informed audit and visual refinement; [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT) informed responsive layout and interaction; [Open Design](https://github.com/nexu-io/open-design) (Apache 2.0) was used as a reference for hierarchy and information design. See the [full usage and attribution report](docs/frontend-redesign.md#design-repositories-and-credit).
 - **Spatial inspiration:** [Cosmos](https://www.cosmos.so/) inspired the landing composition; its assets and code were not copied. OotaPass uses original food-recovery illustrations and its shared yellow ring-and-dot logo.
 - **Data:** synthetic. Hospital and area locations are approximate public coordinates.
+## Contributors
+
+- prinshu-prog
