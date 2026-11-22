@@ -2,6 +2,8 @@
 
 **Plans tonight's surplus food into labelled dinners for families waiting outside Bengaluru's government hospitals, and when a gate goes short, says exactly why.**
 
+**Top 20 in the REWIRED 2026 online round** · Team C1CORE
+
 *Oota* (ಊಟ) means meal in Kannada.
 
 > **Team C1CORE**, BMS Institute of Technology and Management, Bengaluru · Rewired 2026 ("The Invisible City"), online round
@@ -9,11 +11,11 @@
 
 [Team repository](https://github.com/dab1704/OOTAPASS) · [Frontend fork](https://github.com/RMP2005/ootapass-ui) · [Design and verification report](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend-redesign.md)
 
-![OotaPass landing with ten orbiting food-recovery cards](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend/ten-card-orbit-desktop.png)
+![OotaPass landing with ten orbiting food-recovery cards](docs/frontend/ten-card-orbit-desktop.png)
 
 > **Frontend checkout:** use the [`docs/readme-refresh` branch](https://github.com/RMP2005/ootapass-ui/tree/docs/readme-refresh) for the current redesigned app. This default-branch README links to its screenshots and report.
 
-## Explore the interface
+## UI/UX walkthrough
 
 The project has three distinct entry points. The landing introduces the problem; its **Enter the dispatch workspace** button opens the interactive demonstration. Use **Open working app** inside the demo to reach the API-backed planner.
 
@@ -23,12 +25,12 @@ The project has three distinct entry points. The landing introduces the problem;
 | **Interactive console** | Top navigation for Night board, Runner app and Plan comparison. A route/replay map, cancellation example and iPhone-style runner flow. These are **scripted demonstration states**, not live delivery confirmations. |
 | **Working planner** | Hospital-gate requests, surplus donations, donor/runner cancellation, replanning, map/replay, gate/trip/supply/activity views, food passports, pickup acceptance/rejection and printable QR labels. Uses the existing Flask API and SQLite storage. |
 
-![Night board with top navigation and route map](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend/top-navigation-nightboard.png)
+![Night board with top navigation and route map](docs/frontend/top-navigation-nightboard.png)
 
 <details>
 <summary>Runner phone and mobile interface</summary>
 
-![Runner app in its phone frame](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend/iphone-runner-desktop.png)
+![Runner app in its phone frame](docs/frontend/iphone-runner-desktop.png)
 
 [Mobile landing](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend/ten-card-orbit-mobile.png) · [Mobile runner](https://github.com/RMP2005/ootapass-ui/blob/docs/readme-refresh/docs/frontend/iphone-runner-mobile.png)
 
